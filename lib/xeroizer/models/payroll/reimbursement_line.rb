@@ -13,7 +13,7 @@ module Xeroizer
         string :description
         decimal :amount
         
-        validates_presence_of :reimbursement_type_id
+        validates_presence_of :reimbursement_type_id, :unless => :new_record?
       end
 
     end 

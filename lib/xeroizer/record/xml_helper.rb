@@ -138,8 +138,10 @@ module Xeroizer
                 end
 
               when :has_one
+                if value
                   value.to_xml(b)
                   nil
+                end
 
             end
           end
