@@ -3,6 +3,7 @@ module Xeroizer
     module Payroll
     
       class TaxDeclarationModel < PayrollBaseModel
+        set_xml_node_name 'TaxDeclaration'
       end
       
       class TaxDeclaration < PayrollBase
@@ -42,9 +43,9 @@ module Xeroizer
         decimal      :approved_withholding_variation_percentage
 
         datetime_utc :updated_date_utc, :api_name => 'UpdatedDateUTC'
-
-        validates_inclusion_of :employment_basis, :in => EMPLOYMENT_BASISES
-        validates_inclusion_of :tfn_exemption_type, :in => TFN_EXEMPTION_TYPES, :allow_blanks => true
+        
+        validates_inclusion_of :employment_basis, :in => EMPLOYMENT_BASIS
+        validates_inclusion_of :tfn_exemption_type, :in => EMPLOYMENT_BASIS
       end
 
     end 

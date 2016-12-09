@@ -32,10 +32,9 @@ module Xeroizer
         decimal :minimum_monthly_earnings
         decimal :percentage
 
-        validates_presence_of :super_membership_id
-        validates_presence_of :contribution_type, :calculation_type, :expense_account_code, :liability_account_code
-        validates_inclusion_of :contribution_type, :in => SUPERANNUATION_CONTRIBUTION_TYPES
-        validates_inclusion_of :calculation_type, :in => SUPERANNUATION_CALCULATION_TYPES
+        validates_presence_of :super_membership_id, :contribution_type, :calculation_type, :expense_account_code, :liability_account_code, :unless => :new_record?
+        validates_inclusion_of :contribution_type, :in => SUPERANNUATION_CONTRIBUTION_TYPE
+        validates_inclusion_of :calculation_type, :in => SUPERANNUATION_CALCULATION_TYPE
       end
 
     end 
