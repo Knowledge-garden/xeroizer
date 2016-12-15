@@ -2,16 +2,17 @@ require 'xeroizer/record/application_helper'
 
 module Xeroizer
   class GenericApplication
-    
+
     include Http
     extend Record::ApplicationHelper
-    
-    attr_reader :client, :rate_limit_sleep, :rate_limit_max_attempts
+
+    attr_reader :client, :rate_limit_sleep, :rate_limit_max_attempts,
+                :default_headers, :unitdp, :before_request, :after_request
     attr_accessor :logger, :xero_url
-    
+
     extend Forwardable
     def_delegators :client, :access_token
-    
+
     record :Account
     record :BrandingTheme
     record :Contact
@@ -37,9 +38,9 @@ module Xeroizer
     report :ExecutiveSummary
     report :ProfitAndLoss
     report :TrialBalance
-    
+
     public
-    
+
       # Never used directly. Use sub-classes instead.
       # @see PublicApplication
       # @see PrivateApplication
@@ -48,7 +49,12 @@ module Xeroizer
         @xero_url = options[:xero_url] || "https://api.xero.com/api.xro/2.0"
         @rate_limit_sleep = options[:rate_limit_sleep] || false
         @rate_limit_max_attempts = options[:rate_limit_max_attempts] || 5
-        @client   = OAuth.new(consumer_key, consumer_secret, options)
+        @default_headers = options[:default_headers] || {}
+        @before_request = options.delete(:before_request)
+        @after_request = options.delete(:after_request)
+        @client = OAuth.new(consumer_key, consumer_secret, options.merge({default_headers: default_headers}))
+        @logger = options[:logger] || false
+        @unitdp = options[:unitdp] || 2
       end
 
       def payroll(options = {})
@@ -56,6 +62,6 @@ module Xeroizer
         xero_client.xero_url = options[:xero_url] || "https://api.xero.com/payroll.xro/1.0"
         @payroll ||= PayrollApplication.new(xero_client)
       end
-          
+
   end
 end

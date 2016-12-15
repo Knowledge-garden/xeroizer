@@ -3,7 +3,7 @@ require 'date'
 require 'forwardable'
 require 'active_support/inflector'
 require 'active_support/memoizable'
-# require "active_support/core_ext"
+require "active_support/core_ext/array"
 require 'oauth'
 require 'oauth/signature/rsa/sha1'
 require 'nokogiri'
